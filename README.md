@@ -2,7 +2,8 @@
 
 You can use the [editor on GitHub](https://github.com/Chinolover/Chinolover.github.io/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.![chino](https://user-images.githubusercontent.com/82580143/162981875-90f206a6-b482-4278-973d-8063a99e3947.png)
+
 
 ### Markdown
 
