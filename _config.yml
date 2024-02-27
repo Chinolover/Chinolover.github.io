@@ -1,0 +1,22 @@
+name: 摆烂小趴菜
+author: wxh
+url: http://localhost:4000/
+baseurl: 
+resume_site: 
+description: 
+github_username: 
+github: 
+plugins: [jekyll-paginate]
+permalink: /:year-:month-:day-:title
+paginate: 12
+paginate_path: "/page/:num/"
+exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
+highlighter: rouge
+markdown: kramdown
+comments :
+  gitalk :
+    clientID : 
+    clientSecret : 
+    repo : 
+    owner : 
+    admin : 
