@@ -1,11 +1,11 @@
 name: 摆烂小趴菜
 author: wxh
 url: http://localhost:4000/
-baseurl: 
+baseurl:
 resume_site: 
 description: 
-github_username: 
-github: 
+github_username: Chinolover
+github: https://github.com/Chinolover
 plugins: [jekyll-paginate]
 permalink: /:year-:month-:day-:title
 paginate: 12
@@ -15,8 +15,9 @@ highlighter: rouge
 markdown: kramdown
 comments :
   gitalk :
-    clientID : 
-    clientSecret : 
-    repo : 
-    owner : 
-    admin : 
+    clientID : e6ad1d8824c97f88808d
+    clientSecret : 64befeb05907dd3d43240a0c14f12ca68126a827
+    #repo 域名
+    repo :
+    owner : https://github.com/Chinolover
+    admin : https://github.com/Chinolover
