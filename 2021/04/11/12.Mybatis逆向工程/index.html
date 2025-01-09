@@ -1,0 +1,739 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" href="/img/avatar.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="王兴华">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="MyBatis的逆向工程 正向工程：先创建Java实体类，由框架负责根据实体类生成数据库表。Hibernate是支持正向工程的 逆向工程：先创建数据库表，由框架负责根据数据库表，反向生成如下资源：   Java实体类   Mapper接口   Mapper映射文件    创建逆向工程的步骤添加依赖和插件123456789101112131415161718192021222324252627282">
+<meta property="og:type" content="article">
+<meta property="og:title" content="12.Mybatis逆向工程">
+<meta property="og:url" content="http://example.com/2021/04/11/12.Mybatis%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/index.html">
+<meta property="og:site_name" content="摆烂的小趴菜">
+<meta property="og:description" content="MyBatis的逆向工程 正向工程：先创建Java实体类，由框架负责根据实体类生成数据库表。Hibernate是支持正向工程的 逆向工程：先创建数据库表，由框架负责根据数据库表，反向生成如下资源：   Java实体类   Mapper接口   Mapper映射文件    创建逆向工程的步骤添加依赖和插件123456789101112131415161718192021222324252627282">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/%E6%89%A7%E8%A1%8CMBG%E6%8F%92%E4%BB%B6%E7%9A%84generate%E7%9B%AE%E6%A0%87.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/dependency%E4%B8%AD%E7%9A%84%E9%A9%B1%E5%8A%A8.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/%E6%8F%92%E4%BB%B6%E4%B8%AD%E7%9A%84%E9%A9%B1%E5%8A%A8.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/%E9%80%86%E5%90%91%E6%89%A7%E8%A1%8C%E7%BB%93%E6%9E%9C.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/example%E7%9A%84%E6%96%B9%E6%B3%95.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/example%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/%E5%A2%9E%E5%88%A0%E6%94%B9%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C1.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/%E5%A2%9E%E5%88%A0%E6%94%B9%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C2.png">
+<meta property="article:published_time" content="2021-04-11T00:29:38.000Z">
+<meta property="article:modified_time" content="2025-01-09T10:52:37.896Z">
+<meta property="article:author" content="王兴华">
+<meta property="article:tag" content="Mybatis">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/%E6%89%A7%E8%A1%8CMBG%E6%8F%92%E4%BB%B6%E7%9A%84generate%E7%9B%AE%E6%A0%87.png">
+  
+  
+  
+  <title>12.Mybatis逆向工程 - 摆烂的小趴菜</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>摆烂的小趴菜</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="12.Mybatis逆向工程"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-04-11 08:29" pubdate>
+          2021年4月11日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">12.Mybatis逆向工程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="MyBatis的逆向工程"><a href="#MyBatis的逆向工程" class="headerlink" title="MyBatis的逆向工程"></a>MyBatis的逆向工程</h1><ul>
+<li>正向工程：先创建Java实体类，由框架负责根据实体类生成数据库表。Hibernate是支持正向工程的</li>
+<li>逆向工程：先创建数据库表，由框架负责根据数据库表，反向生成如下资源：  </li>
+<li>Java实体类  <ul>
+<li>Mapper接口  </li>
+<li>Mapper映射文件</li>
+</ul>
+</li>
+</ul>
+<h2 id="创建逆向工程的步骤"><a href="#创建逆向工程的步骤" class="headerlink" title="创建逆向工程的步骤"></a>创建逆向工程的步骤</h2><h3 id="添加依赖和插件"><a href="#添加依赖和插件" class="headerlink" title="添加依赖和插件"></a>添加依赖和插件</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>	<span class="hljs-comment">&lt;!-- MyBatis核心依赖包 --&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.mybatis<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mybatis<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.5.9<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>	<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>	<span class="hljs-comment">&lt;!-- junit测试 --&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>junit<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>junit<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>4.13.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span><br>	<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>	<span class="hljs-comment">&lt;!-- MySQL驱动 --&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>mysql<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mysql-connector-java<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>8.0.27<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>	<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>	<span class="hljs-comment">&lt;!-- log4j日志 --&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>log4j<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>log4j<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.2.17<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>	<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br><span class="hljs-comment">&lt;!-- 控制Maven在构建过程中相关配置 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span><br>	<span class="hljs-comment">&lt;!-- 构建过程中用到的插件 --&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span><br>		<span class="hljs-comment">&lt;!-- 具体插件，逆向工程的操作是以构建过程中插件形式出现的 --&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span><br>			<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.mybatis.generator<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>			<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mybatis-generator-maven-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>			<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.3.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>			<span class="hljs-comment">&lt;!-- 插件的依赖 --&gt;</span><br>			<span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>				<span class="hljs-comment">&lt;!-- 逆向工程的核心依赖 --&gt;</span><br>				<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>					<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.mybatis.generator<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>					<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mybatis-generator-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>					<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.3.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>				<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>				<span class="hljs-comment">&lt;!-- 数据库连接池 --&gt;</span><br>				<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>					<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.mchange<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>					<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>c3p0<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>					<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.9.2<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>				<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>				<span class="hljs-comment">&lt;!-- MySQL驱动 --&gt;</span><br>				<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>					<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>mysql<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>					<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mysql-connector-java<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>					<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>8.0.27<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>				<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>			<span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br>		<span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span><br>	<span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="创建MyBatis的核心配置文件"><a href="#创建MyBatis的核心配置文件" class="headerlink" title="创建MyBatis的核心配置文件"></a>创建MyBatis的核心配置文件</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span> ?&gt;</span><br><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">configuration</span></span><br><span class="hljs-meta">        <span class="hljs-keyword">PUBLIC</span> <span class="hljs-string">&quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span></span><br><span class="hljs-meta">        <span class="hljs-string">&quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">properties</span> <span class="hljs-attr">resource</span>=<span class="hljs-string">&quot;jdbc.properties&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">typeAliases</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">package</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">typeAliases</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">environments</span> <span class="hljs-attr">default</span>=<span class="hljs-string">&quot;development&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">environment</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;development&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">transactionManager</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;JDBC&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">dataSource</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;POOLED&quot;</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;driver&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;$&#123;jdbc.driver&#125;&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;url&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;$&#123;jdbc.url&#125;&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;username&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;$&#123;jdbc.username&#125;&quot;</span>/&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;$&#123;jdbc.password&#125;&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">dataSource</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">environment</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">environments</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">mappers</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">package</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">mappers</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="创建逆向工程的配置文件"><a href="#创建逆向工程的配置文件" class="headerlink" title="创建逆向工程的配置文件"></a>创建逆向工程的配置文件</h3><ul>
+<li>文件名必须是：<code>generatorConfig.xml</code></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">generatorConfiguration</span></span><br><span class="hljs-meta">        <span class="hljs-keyword">PUBLIC</span> <span class="hljs-string">&quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;</span></span><br><span class="hljs-meta">        <span class="hljs-string">&quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">generatorConfiguration</span>&gt;</span><br>    <span class="hljs-comment">&lt;!--</span><br><span class="hljs-comment">    targetRuntime: 执行生成的逆向工程的版本</span><br><span class="hljs-comment">    MyBatis3Simple: 生成基本的CRUD（清新简洁版）</span><br><span class="hljs-comment">    MyBatis3: 生成带条件的CRUD（奢华尊享版）</span><br><span class="hljs-comment">    --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">context</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;DB2Tables&quot;</span> <span class="hljs-attr">targetRuntime</span>=<span class="hljs-string">&quot;MyBatis3Simple&quot;</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- 数据库的连接信息 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">jdbcConnection</span> <span class="hljs-attr">driverClass</span>=<span class="hljs-string">&quot;com.mysql.cj.jdbc.Driver&quot;</span></span><br><span class="hljs-tag">                        <span class="hljs-attr">connectionURL</span>=<span class="hljs-string">&quot;jdbc:mysql://localhost:3306/mybatis&quot;</span></span><br><span class="hljs-tag">                        <span class="hljs-attr">userId</span>=<span class="hljs-string">&quot;root&quot;</span></span><br><span class="hljs-tag">                        <span class="hljs-attr">password</span>=<span class="hljs-string">&quot;123456&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">jdbcConnection</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- javaBean的生成策略--&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">javaModelGenerator</span> <span class="hljs-attr">targetPackage</span>=<span class="hljs-string">&quot;com.atguigu.mybatis.pojo&quot;</span> <span class="hljs-attr">targetProject</span>=<span class="hljs-string">&quot;.\src\main\java&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;enableSubPackages&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;trimStrings&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">javaModelGenerator</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- SQL映射文件的生成策略 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">sqlMapGenerator</span> <span class="hljs-attr">targetPackage</span>=<span class="hljs-string">&quot;com.atguigu.mybatis.mapper&quot;</span></span><br><span class="hljs-tag">                         <span class="hljs-attr">targetProject</span>=<span class="hljs-string">&quot;.\src\main\resources&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;enableSubPackages&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">sqlMapGenerator</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- Mapper接口的生成策略 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">javaClientGenerator</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;XMLMAPPER&quot;</span></span><br><span class="hljs-tag">                             <span class="hljs-attr">targetPackage</span>=<span class="hljs-string">&quot;com.atguigu.mybatis.mapper&quot;</span> <span class="hljs-attr">targetProject</span>=<span class="hljs-string">&quot;.\src\main\java&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;enableSubPackages&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">javaClientGenerator</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- 逆向分析的表 --&gt;</span><br>        <span class="hljs-comment">&lt;!-- tableName设置为*号，可以对应所有表，此时不写domainObjectName --&gt;</span><br>        <span class="hljs-comment">&lt;!-- domainObjectName属性指定生成出来的实体类的类名 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">tableName</span>=<span class="hljs-string">&quot;t_emp&quot;</span> <span class="hljs-attr">domainObjectName</span>=<span class="hljs-string">&quot;Emp&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">tableName</span>=<span class="hljs-string">&quot;t_dept&quot;</span> <span class="hljs-attr">domainObjectName</span>=<span class="hljs-string">&quot;Dept&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">context</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">generatorConfiguration</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="执行MBG插件的generate目标"><a href="#执行MBG插件的generate目标" class="headerlink" title="执行MBG插件的generate目标"></a>执行MBG插件的generate目标</h3><ul>
+<li><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/%E6%89%A7%E8%A1%8CMBG%E6%8F%92%E4%BB%B6%E7%9A%84generate%E7%9B%AE%E6%A0%87.png" srcset="/img/loading.gif" lazyload></li>
+<li>如果出现报错：<code>Exception getting JDBC Driver</code>，可能是pom.xml中，数据库驱动配置错误</li>
+<li>dependency中的驱动<img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/dependency%E4%B8%AD%E7%9A%84%E9%A9%B1%E5%8A%A8.png" srcset="/img/loading.gif" lazyload><ul>
+<li>mybatis-generator-maven-plugin插件中的驱动<img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/%E6%8F%92%E4%BB%B6%E4%B8%AD%E7%9A%84%E9%A9%B1%E5%8A%A8.png" srcset="/img/loading.gif" lazyload></li>
+<li>两者的驱动版本应该相同</li>
+</ul>
+</li>
+<li>执行结果<img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/%E9%80%86%E5%90%91%E6%89%A7%E8%A1%8C%E7%BB%93%E6%9E%9C.png" srcset="/img/loading.gif" lazyload></li>
+</ul>
+<h2 id="QBC"><a href="#QBC" class="headerlink" title="QBC"></a>QBC</h2><h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><ul>
+<li><code>selectByExample</code>：按条件查询，需要传入一个example对象或者null；如果传入一个null，则表示没有条件，也就是查询所有数据</li>
+<li><code>example.createCriteria().xxx</code>：创建条件对象，通过andXXX方法为SQL添加查询添加，每个条件之间是and关系</li>
+<li><code>example.or().xxx</code>：将之前添加的条件通过or拼接其他条件<br><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/example%E7%9A%84%E6%96%B9%E6%B3%95.png" srcset="/img/loading.gif" lazyload></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Test</span> <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">testMBG</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>	<span class="hljs-type">InputStream</span> <span class="hljs-variable">is</span> <span class="hljs-operator">=</span> Resources.getResourceAsStream(<span class="hljs-string">&quot;mybatis-config.xml&quot;</span>);<br>	<span class="hljs-type">SqlSessionFactoryBuilder</span> <span class="hljs-variable">sqlSessionFactoryBuilder</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SqlSessionFactoryBuilder</span>();<br>	<span class="hljs-type">SqlSessionFactory</span> <span class="hljs-variable">sqlSessionFactory</span> <span class="hljs-operator">=</span> sqlSessionFactoryBuilder.build(is);<br>	<span class="hljs-type">SqlSession</span> <span class="hljs-variable">sqlSession</span> <span class="hljs-operator">=</span> sqlSessionFactory.openSession(<span class="hljs-literal">true</span>);<br>	<span class="hljs-type">EmpMapper</span> <span class="hljs-variable">mapper</span> <span class="hljs-operator">=</span> sqlSession.getMapper(EmpMapper.class);<br>	<span class="hljs-type">EmpExample</span> <span class="hljs-variable">example</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">EmpExample</span>();<br>	<span class="hljs-comment">//名字为张三，且年龄大于等于20</span><br>	example.createCriteria().andEmpNameEqualTo(<span class="hljs-string">&quot;张三&quot;</span>).andAgeGreaterThanOrEqualTo(<span class="hljs-number">20</span>);<br>	<span class="hljs-comment">//或者did不为空</span><br>	example.or().andDidIsNotNull();<br>	List&lt;Emp&gt; emps = mapper.selectByExample(example);<br>	emps.forEach(System.out::println);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/example%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="增改"><a href="#增改" class="headerlink" title="增改"></a>增改</h3><ul>
+<li><code>updateByPrimaryKey</code>：通过主键进行数据修改，如果某一个值为null，也会将对应的字段改为null</li>
+<li><code>mapper.updateByPrimaryKey(new Emp(1,&quot;admin&quot;,22,null,&quot;456@qq.com&quot;,3));</code><ul>
+<li><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/%E5%A2%9E%E5%88%A0%E6%94%B9%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C1.png" srcset="/img/loading.gif" lazyload></li>
+</ul>
+</li>
+<li><code>updateByPrimaryKeySelective()</code>：通过主键进行选择性数据修改，如果某个值为null，则不修改这个字段</li>
+<li><code>mapper.updateByPrimaryKeySelective(new Emp(2,&quot;admin2&quot;,22,null,&quot;456@qq.com&quot;,3));</code><ul>
+<li><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/%E5%A2%9E%E5%88%A0%E6%94%B9%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C2.png" srcset="/img/loading.gif" lazyload></li>
+</ul>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Mybatis/" class="category-chain-item">Mybatis</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Mybatis/" class="print-no-link">#Mybatis</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>12.Mybatis逆向工程</div>
+      <div>http://example.com/2021/04/11/12.Mybatis逆向工程/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>王兴华</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年4月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/04/11/11.Mybatis%E7%BC%93%E5%AD%98/" title="11.Mybatis缓存">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">11.Mybatis缓存</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/04/11/13.%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6/" title="13.分页插件">
+                        <span class="hidden-mobile">13.分页插件</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'Chinolover/Chinolover.github.io');
+      s.setAttribute('issue-term', 'title');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
