@@ -1,0 +1,940 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/avatar.png">
+  <link rel="icon" href="/img/avatar.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="王兴华">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="[TOC] Linux文件Linux 系统中一切皆文件 Linux目录结构      VIM编辑器VI 是 Unix 操作系统和类 Unix 操作系统中最通用的文本编辑器。  VIM 编辑器是从 VI 发展出来的一个性能更强大的文本编辑器。可以主动的以字体颜 色辨别语法的正确性，方便程序设计。VIM 与 VI 编辑器完全兼容。  一般模式1vim hello.txt  进入文件后默认为一般模式，如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux的使用">
+<meta property="og:url" content="http://example.com/2024/06/12/Linux/index.html">
+<meta property="og:site_name" content="摆烂的小趴菜">
+<meta property="og:description" content="[TOC] Linux文件Linux 系统中一切皆文件 Linux目录结构      VIM编辑器VI 是 Unix 操作系统和类 Unix 操作系统中最通用的文本编辑器。  VIM 编辑器是从 VI 发展出来的一个性能更强大的文本编辑器。可以主动的以字体颜 色辨别语法的正确性，方便程序设计。VIM 与 VI 编辑器完全兼容。  一般模式1vim hello.txt  进入文件后默认为一般模式，如">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922140854301.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922140906156.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922140914261.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922140921862.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922140929714.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922140935222.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922153752876.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922153053809.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922153541296.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922153657574.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925154106339.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925162930974.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925163041893.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925163136386.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925163327024.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925163529170.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925163744485.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925163828153.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925172528042.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007153021862.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007153312137.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007154826000.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007155904352.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007161954705.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007162242278.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007170423092.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007170523875.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007170936012.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007171126730.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007171321240.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007222756731.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007223130004.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007223324848.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007225140531.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007225922203.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007230144970.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007230222775.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007230342876.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007230445312.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007231353758.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007233036452.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008103455967.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008103737904.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008103747286.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008105344538.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008105417423.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008105425790.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008105616048.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008105955743.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008112538492.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008112857404.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008112903343.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008112913160.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008112931081.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008112936276.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008112947117.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008112953578.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008113147744.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008113209875.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008113227169.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008114218119.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008114310861.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008114428190.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008114434602.png">
+<meta property="og:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008114519499.png">
+<meta property="article:published_time" content="2024-06-12T03:21:30.000Z">
+<meta property="article:modified_time" content="2025-01-09T10:09:46.383Z">
+<meta property="article:author" content="王兴华">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922140854301.png">
+  
+  
+  
+  <title>Linux的使用 - 摆烂的小趴菜</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>摆烂的小趴菜</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Linux的使用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-06-12 11:21" pubdate>
+          2024年6月12日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Linux的使用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>[TOC]</p>
+<h2 id="Linux文件"><a href="#Linux文件" class="headerlink" title="Linux文件"></a>Linux文件</h2><p>Linux 系统中一切皆文件</p>
+<h3 id="Linux目录结构"><a href="#Linux目录结构" class="headerlink" title="Linux目录结构"></a>Linux目录结构</h3><p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922140854301.png" srcset="/img/loading.gif" lazyload alt="image-20240922140854301"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922140906156.png" srcset="/img/loading.gif" lazyload alt="image-20240922140906156"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922140914261.png" srcset="/img/loading.gif" lazyload alt="image-20240922140914261"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922140921862.png" srcset="/img/loading.gif" lazyload alt="image-20240922140921862"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922140929714.png" srcset="/img/loading.gif" lazyload alt="image-20240922140929714"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922140935222.png" srcset="/img/loading.gif" lazyload alt="image-20240922140935222"></p>
+<h2 id="VIM编辑器"><a href="#VIM编辑器" class="headerlink" title="VIM编辑器"></a>VIM编辑器</h2><p>VI 是 Unix 操作系统和类 Unix 操作系统中最通用的文本编辑器。 </p>
+<p>VIM 编辑器是从 VI 发展出来的一个性能更强大的文本编辑器。可以主动的以字体颜 色辨别语法的正确性，方便程序设计。VIM 与 VI 编辑器完全兼容。</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922153752876.png" srcset="/img/loading.gif" lazyload alt="image-20240922153752876"></p>
+<h3 id="一般模式"><a href="#一般模式" class="headerlink" title="一般模式"></a>一般模式</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">vim</span> hello.txt<br></code></pre></td></tr></table></figure>
+
+<p>进入文件后默认为一般模式，如果进入别的模式需要切换回一般模式，按esc即可</p>
+<p>一般模式常用命令如下：</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922153053809.png" srcset="/img/loading.gif" lazyload alt="image-20240922153053809"></p>
+<h3 id="编辑模式"><a href="#编辑模式" class="headerlink" title="编辑模式"></a>编辑模式</h3><p>在一般模式下，按 <strong>i</strong> 即可进入编辑模式</p>
+<p>注意了！通常在Linux中，按下这些按键时，在画面的左下方会出现『INSERT或 REPLACE』的字样，此时才可以进行编辑。而如果要回到一般模式时， 则必须要按下 『Esc』这个按键即可退出编辑模式</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922153541296.png" srcset="/img/loading.gif" lazyload alt="image-20240922153541296"></p>
+<h3 id="指令模式"><a href="#指令模式" class="headerlink" title="指令模式"></a>指令模式</h3><p>在一般模式下输入 <strong>：</strong>即可进入指令模式</p>
+<p>在这个模式当中， 可以提供你『搜寻资料』的动作，而读取、存盘、大量取代字符、 离开 vi 、显示行号等动作是在此模式中达成的！</p>
+<p>常用操作：</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240922153657574.png" srcset="/img/loading.gif" lazyload alt="image-20240922153657574"></p>
+<p>eg. <strong>wq!</strong> 强制保存退出</p>
+<h2 id="系统管理"><a href="#系统管理" class="headerlink" title="系统管理"></a>系统管理</h2><p>计算机中，一个正在执行的程序或命令，被叫做<strong>“进程”</strong>（process）。 </p>
+<p>启动之后一只存在、常驻内存的进程，一般被称作<strong>“服务”</strong>（service）</p>
+<h3 id="systemctl"><a href="#systemctl" class="headerlink" title="systemctl"></a>systemctl</h3><p>1） 基本语法 </p>
+<figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs coq">systemctl 	start | <span class="hljs-type">stop</span> | <span class="hljs-type">restart</span> | <span class="hljs-type">status</span> 	服务名 <br></code></pre></td></tr></table></figure>
+
+<p>2） 经验技巧 查看服务的方法：&#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;system</p>
+<p>3） 案例实操</p>
+<p>（1）查看防火墙服务的状态 </p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">systemctl status firewalld</span> <br></code></pre></td></tr></table></figure>
+
+<p>（2）停止防火墙服务</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">systemctl stop firewalld <br></code></pre></td></tr></table></figure>
+
+<p>（3）启动防火墙服务</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">systemctl <span class="hljs-literal">start</span> firewalld <br></code></pre></td></tr></table></figure>
+
+<p>（4）重启防火墙服务</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">systemctl restart firewalld</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="systemctl-设置后台服务的自启配置"><a href="#systemctl-设置后台服务的自启配置" class="headerlink" title="systemctl 设置后台服务的自启配置"></a>systemctl 设置后台服务的自启配置</h3><p>1）基本语法 	 systemctl list-unit-files （功能描述：查看服务开机启动状态） </p>
+<p>​						  systemctl disable service_name （功能描述：关掉指定服务的自动启动）</p>
+<pre><code class="hljs">                      systemctl enable service_name （功能描述：开启指定服务的自动启动） 
+</code></pre>
+<p>2）案例实操</p>
+<p>开启&#x2F;关闭 iptables(防火墙)服务的自动启动</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">systemctl <span class="hljs-built_in">enable</span> firewalld.service<br>systemctl <span class="hljs-built_in">disable</span> firewalld.service<br></code></pre></td></tr></table></figure>
+
+<h3 id="系统运行级别"><a href="#系统运行级别" class="headerlink" title="系统运行级别"></a>系统运行级别</h3><p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925154106339.png" srcset="/img/loading.gif" lazyload alt="image-20240925154106339"></p>
+<p>CentOS7 的运行级别简化为: </p>
+<p>multi-user.target 等价于原运行级别 3（多用户有网，无图形界面） </p>
+<p>graphical.target 等价于原运行级别 5（多用户有网，有图形界面)</p>
+<p>查看当前运行级别:</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs actionscript">systemctl <span class="hljs-keyword">get</span>-<span class="hljs-keyword">default</span><br></code></pre></td></tr></table></figure>
+
+<p>修改当前运行级别:</p>
+<figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dsconfig"><span class="hljs-string">systemctl</span> <span class="hljs-built_in">set-default</span> <span class="hljs-string">TARGET</span>.<span class="hljs-string">target</span> （这里 <span class="hljs-string">TARGET</span> 取 <span class="hljs-string">multi-user</span> 或者 <span class="hljs-string">graphical</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h3><p>开机启动时关闭防火墙</p>
+<p>(1) 查看防火墙开机启动状态   systemctl enable firewalld.service</p>
+<p>(2) 设置开机时关闭防火墙    systemctl disable firewalld.service</p>
+<h2 id="常用基本命令"><a href="#常用基本命令" class="headerlink" title="常用基本命令"></a>常用基本命令</h2><p>​		Shell 可以看作是一个命令解释器，为我们提供了交互式的文本控制台界面。我们可以 通过终端控制台来输入命令，由 shell 进行解释并最终交给内核执行。 本章就将分类介绍 常用的基本 shell 命令。</p>
+<h3 id="常用快捷键"><a href="#常用快捷键" class="headerlink" title="常用快捷键"></a>常用快捷键</h3><table>
+<thead>
+<tr>
+<th><strong>ctrl + c</strong></th>
+<th><strong>停止进程</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>ctrl + l</strong></td>
+<td><strong>清屏，等同于 clear；彻底清屏是：reset</strong></td>
+</tr>
+<tr>
+<td><strong>善于用 tab 键</strong></td>
+<td><strong>提示(更重要的是可以防止敲错)</strong></td>
+</tr>
+<tr>
+<td><strong>上下键</strong></td>
+<td><strong>查找执行过的命令</strong></td>
+</tr>
+</tbody></table>
+<h3 id="文件目录类"><a href="#文件目录类" class="headerlink" title="文件目录类"></a>文件目录类</h3><h4 id="pwd-显示当前工作目录的绝对路径"><a href="#pwd-显示当前工作目录的绝对路径" class="headerlink" title="pwd 显示当前工作目录的绝对路径"></a>pwd 显示当前工作目录的绝对路径</h4><p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925162930974.png" srcset="/img/loading.gif" lazyload alt="image-20240925162930974"></p>
+<h4 id="ls-列出目录的"><a href="#ls-列出目录的" class="headerlink" title="ls 列出目录的"></a>ls 列出目录的</h4><p>ls [选项] [目录或是文件]</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925163041893.png" srcset="/img/loading.gif" lazyload alt="image-20240925163041893"></p>
+<h4 id="cd-切换目录"><a href="#cd-切换目录" class="headerlink" title="cd 切换目录"></a>cd 切换目录</h4><p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925163136386.png" srcset="/img/loading.gif" lazyload alt="image-20240925163136386"></p>
+<h4 id="mkdir-创建一个新的目录"><a href="#mkdir-创建一个新的目录" class="headerlink" title="mkdir 创建一个新的目录"></a>mkdir 创建一个新的目录</h4><p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925163327024.png" srcset="/img/loading.gif" lazyload alt="image-20240925163327024"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925163529170.png" srcset="/img/loading.gif" lazyload alt="image-20240925163529170"></p>
+<h4 id="rmdir-删除一个空的目录"><a href="#rmdir-删除一个空的目录" class="headerlink" title="rmdir 删除一个空的目录"></a>rmdir 删除一个空的目录</h4><p>要求必须是空的文件夹</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925163744485.png" srcset="/img/loading.gif" lazyload alt="image-20240925163744485"></p>
+<h4 id="touch-创建空文件"><a href="#touch-创建空文件" class="headerlink" title="touch 创建空文件"></a>touch 创建空文件</h4><p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925163828153.png" srcset="/img/loading.gif" lazyload alt="image-20240925163828153"></p>
+<h4 id="cp-复制文件或目录"><a href="#cp-复制文件或目录" class="headerlink" title="cp 复制文件或目录"></a>cp 复制文件或目录</h4><p>cp [选项] source dest （功能描述：复制source文件到dest）</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20240925172528042.png" srcset="/img/loading.gif" lazyload alt="image-20240925172528042"></p>
+<h4 id="rm-删除文件或目录"><a href="#rm-删除文件或目录" class="headerlink" title="rm 删除文件或目录"></a>rm 删除文件或目录</h4><p>rm [选项] deleteFile （功能描述：递归删除目录中所有内容）</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007153021862.png" srcset="/img/loading.gif" lazyload alt="image-20241007153021862"></p>
+<p>eg.</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007153312137.png" srcset="/img/loading.gif" lazyload alt="image-20241007153312137"></p>
+<h4 id="mv-移动文件与目录或重命名"><a href="#mv-移动文件与目录或重命名" class="headerlink" title="mv 移动文件与目录或重命名"></a>mv 移动文件与目录或重命名</h4><p>（1）mv oldNameFile newNameFile （功能描述：重命名） </p>
+<p>（2）mv &#x2F;temp&#x2F;movefile &#x2F;targetFolder （功能描述：移动文件）</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007154826000.png" srcset="/img/loading.gif" lazyload alt="image-20241007154826000"></p>
+<h4 id="cat-查看文件内容"><a href="#cat-查看文件内容" class="headerlink" title="cat 查看文件内容"></a>cat 查看文件内容</h4><p>查看文件内容，从第一行开始显示</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007155904352.png" srcset="/img/loading.gif" lazyload alt="image-20241007155904352"></p>
+<h4 id="输出重定向和-追加"><a href="#输出重定向和-追加" class="headerlink" title="&gt; 输出重定向和 &gt;&gt; 追加"></a>&gt; 输出重定向和 &gt;&gt; 追加</h4><p>（1）ls -l &gt; 文件 （功能描述：列表的内容写入文件 a.txt 中（覆盖写）） </p>
+<p>（2）ls -al &gt;&gt; 文件 （功能描述：列表的内容追加到文件 aa.txt 的末尾） </p>
+<p>（3）cat 文件 1 &gt; 文件 2 （功能描述：将文件 1 的内容覆盖到文件 2） </p>
+<p>（4）echo “内容” &gt;&gt;</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007161954705.png" srcset="/img/loading.gif" lazyload alt="image-20241007161954705"></p>
+<h4 id="ln-软链接"><a href="#ln-软链接" class="headerlink" title="ln 软链接"></a>ln 软链接</h4><p>软链接也称为符号链接，类似于 windows 里的快捷方式，有自己的数据块，主要存放 了链接其他文件的路径。</p>
+<p>1）基本语法 ln -s [原文件或目录] [软链接名] （功能描述：给原文件创建一个软链接）</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007162242278.png" srcset="/img/loading.gif" lazyload alt="image-20241007162242278"></p>
+<h4 id="history-查看已经执行过历史命令"><a href="#history-查看已经执行过历史命令" class="headerlink" title="history 查看已经执行过历史命令"></a>history 查看已经执行过历史命令</h4><h3 id="时间类"><a href="#时间类" class="headerlink" title="时间类"></a>时间类</h3><p>data显示当前时间 </p>
+<p>cal显示当前日历</p>
+<h3 id="用户权限类"><a href="#用户权限类" class="headerlink" title="用户权限类"></a>用户权限类</h3><h4 id="useradd-添加新用户"><a href="#useradd-添加新用户" class="headerlink" title="useradd 添加新用户"></a>useradd 添加新用户</h4><p>useradd 用户名 （功能描述：添加新用户） </p>
+<p>useradd -g 组名 用户名 （功能描述：添加新用户到某个组）</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007170423092.png" srcset="/img/loading.gif" lazyload alt="image-20241007170423092"></p>
+<h4 id="passwd-设置用户密码"><a href="#passwd-设置用户密码" class="headerlink" title="passwd 设置用户密码"></a>passwd 设置用户密码</h4><p>passwd 用户名 （功能描述：设置用户密码）</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007170523875.png" srcset="/img/loading.gif" lazyload alt="image-20241007170523875"></p>
+<h4 id="id-查看用户是否存在"><a href="#id-查看用户是否存在" class="headerlink" title="id 查看用户是否存在"></a>id 查看用户是否存在</h4><p>id 用户名</p>
+<h4 id="su-切换用户"><a href="#su-切换用户" class="headerlink" title="su 切换用户"></a>su 切换用户</h4><p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007170936012.png" srcset="/img/loading.gif" lazyload alt="image-20241007170936012"></p>
+<h4 id="userdel-删除用户"><a href="#userdel-删除用户" class="headerlink" title="userdel 删除用户"></a>userdel 删除用户</h4><p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007171126730.png" srcset="/img/loading.gif" lazyload alt="image-20241007171126730"></p>
+<h4 id="who-查看登录用户信息"><a href="#who-查看登录用户信息" class="headerlink" title="who 查看登录用户信息"></a>who 查看登录用户信息</h4><p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007171321240.png" srcset="/img/loading.gif" lazyload alt="image-20241007171321240"></p>
+<h4 id="sudo-设置普通用户具有-root-权限"><a href="#sudo-设置普通用户具有-root-权限" class="headerlink" title="sudo 设置普通用户具有 root 权限"></a>sudo 设置普通用户具有 root 权限</h4><p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007222756731.png" srcset="/img/loading.gif" lazyload alt="image-20241007222756731"></p>
+<h4 id="usermod-修改用户"><a href="#usermod-修改用户" class="headerlink" title="usermod 修改用户"></a>usermod 修改用户</h4><p>usermod -g 用户组 用户名</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007223130004.png" srcset="/img/loading.gif" lazyload alt="image-20241007223130004"></p>
+<h4 id="groupadd-新增组"><a href="#groupadd-新增组" class="headerlink" title="groupadd 新增组"></a>groupadd 新增组</h4><p>groupadd 组名</p>
+<h4 id="groupdel-删除"><a href="#groupdel-删除" class="headerlink" title="groupdel 删除"></a>groupdel 删除</h4><p>groupdel 组名</p>
+<h4 id="groupmod-修改组"><a href="#groupmod-修改组" class="headerlink" title="groupmod 修改组"></a>groupmod 修改组</h4><p>groupmod -n 新组名 老组名</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007223324848.png" srcset="/img/loading.gif" lazyload alt="image-20241007223324848"></p>
+<h3 id="搜索查找类"><a href="#搜索查找类" class="headerlink" title="搜索查找类"></a>搜索查找类</h3><h4 id="find-查找文件或者目录"><a href="#find-查找文件或者目录" class="headerlink" title="find 查找文件或者目录"></a>find 查找文件或者目录</h4><p>find 指令将从指定目录向下递归地遍历其各个子目录，将满足条件的文件显示在终端。</p>
+<p>find [搜索范围] [选项]</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007225140531.png" srcset="/img/loading.gif" lazyload alt="image-20241007225140531"></p>
+<h4 id="locate-快速定位文件路径（快）"><a href="#locate-快速定位文件路径（快）" class="headerlink" title="locate 快速定位文件路径（快）"></a>locate 快速定位文件路径（快）</h4><p>locate 指令利用事先建立的系统中所有文件名称及路径的 locate 数据库实现快速定位给 定的文件。Locate 指令无需遍历整个文件系统，查询速度较快。为了保证查询结果的准确 度，管理员必须定期更新 locate 时刻</p>
+<p>locate 搜索文件</p>
+<p><strong>注意：由于 locate 指令基于数据库进行查询，所以第一次运行前，必须使用 updatedb 指令创 建 locate 数据库。</strong></p>
+<h3 id="压缩和解压类"><a href="#压缩和解压类" class="headerlink" title="压缩和解压类"></a>压缩和解压类</h3><h4 id="gzip-gunzip-压缩"><a href="#gzip-gunzip-压缩" class="headerlink" title="gzip&#x2F;gunzip 压缩"></a>gzip&#x2F;gunzip 压缩</h4><p>gzip 文件 （功能描述：压缩文件，只能将文件压缩为*.gz 文件）</p>
+<p>gunzip 文件.gz （功能描述：解压缩文件命令）</p>
+<p>注意：</p>
+<p>（1）只能压缩文件不能压缩目录 </p>
+<p>（2）不保留原来的文件 </p>
+<p>（3）同时多个文件会产生多个压缩包</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007225922203.png" srcset="/img/loading.gif" lazyload alt="image-20241007225922203"></p>
+<h4 id="zip-unzip-压缩"><a href="#zip-unzip-压缩" class="headerlink" title="zip&#x2F;unzip 压缩"></a>zip&#x2F;unzip 压缩</h4><p>zip [选项] XXX.zip 将要压缩的内容 （功能描述：压缩文件和目录的命令）</p>
+<p>unzip [选项] XXX.zip （功能描述：解压缩文件）</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007230144970.png" srcset="/img/loading.gif" lazyload alt="image-20241007230144970"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007230222775.png" srcset="/img/loading.gif" lazyload alt="image-20241007230222775"></p>
+<h4 id="tar-打包"><a href="#tar-打包" class="headerlink" title="tar 打包"></a>tar 打包</h4><p>tar [选项] XXX.tar.gz 将要打包进去的内容 （功能描述：打包目录，压缩后的 文件格式.tar.gz）</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007230342876.png" srcset="/img/loading.gif" lazyload alt="image-20241007230342876"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007230445312.png" srcset="/img/loading.gif" lazyload alt="image-20241007230445312"></p>
+<h3 id="磁盘查看和分区类"><a href="#磁盘查看和分区类" class="headerlink" title="磁盘查看和分区类"></a>磁盘查看和分区类</h3><h4 id="du-查看文件和目录占用的磁盘空间"><a href="#du-查看文件和目录占用的磁盘空间" class="headerlink" title="du 查看文件和目录占用的磁盘空间"></a>du 查看文件和目录占用的磁盘空间</h4><p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007231353758.png" srcset="/img/loading.gif" lazyload alt="image-20241007231353758"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241007233036452.png" srcset="/img/loading.gif" lazyload alt="image-20241007233036452"></p>
+<h4 id="df-查看磁盘空间使用情况"><a href="#df-查看磁盘空间使用情况" class="headerlink" title="df 查看磁盘空间使用情况"></a>df 查看磁盘空间使用情况</h4><p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008103455967.png" srcset="/img/loading.gif" lazyload alt="image-20241008103455967"></p>
+<h4 id="fdisk-分区"><a href="#fdisk-分区" class="headerlink" title="fdisk 分区"></a>fdisk 分区</h4><p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008103737904.png" srcset="/img/loading.gif" lazyload alt="image-20241008103737904"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008103747286.png" srcset="/img/loading.gif" lazyload alt="image-20241008103747286"></p>
+<h3 id="进程管理类"><a href="#进程管理类" class="headerlink" title="进程管理类"></a>进程管理类</h3><p>进程是正在执行的一个程序或命令，每一个进程都是一个运行的实体，都有自己的地 址空间，并占用一定的系统资源</p>
+<h4 id="ps-查看当前系统进程状态"><a href="#ps-查看当前系统进程状态" class="headerlink" title="ps 查看当前系统进程状态"></a>ps 查看当前系统进程状态</h4><p>ps aux | grep xxx （功能描述：查看系统中所有进程） </p>
+<p>ps -ef | grep xxx （功能描述：可以查看子父进程之间的关系）</p>
+<p>注：grep<strong>是筛选操作</strong></p>
+<p><font color='pink'>如果想查看进程的 CPU 占用率和内存占用率，可以使用 aux; 如果想查看进程的父进程 ID 可以使用 ef</font></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008105344538.png" srcset="/img/loading.gif" lazyload alt="image-20241008105344538"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008105417423.png" srcset="/img/loading.gif" lazyload alt="image-20241008105417423"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008105425790.png" srcset="/img/loading.gif" lazyload alt="image-20241008105425790"></p>
+<h4 id="kill-终止进程"><a href="#kill-终止进程" class="headerlink" title="kill 终止进程"></a>kill 终止进程</h4><p>kill [选项] 进程号 （功能描述：通过进程号杀死进程） </p>
+<p>killall 进程名称 （功能描述：通过进程名称杀死进程，也支持通配符，这 在系统因负载过大而变得很慢时很有用）</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008105616048.png" srcset="/img/loading.gif" lazyload alt="image-20241008105616048"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008105955743.png" srcset="/img/loading.gif" lazyload alt="image-20241008105955743"></p>
+<h4 id="pstree-查看进程树"><a href="#pstree-查看进程树" class="headerlink" title="pstree 查看进程树"></a>pstree 查看进程树</h4><p>pstree [选项]</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008112538492.png" srcset="/img/loading.gif" lazyload alt="image-20241008112538492"></p>
+<h4 id="top-实时监控系统进程状态"><a href="#top-实时监控系统进程状态" class="headerlink" title="top 实时监控系统进程状态"></a>top 实时监控系统进程状态</h4><p>top [选项]</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008112857404.png" srcset="/img/loading.gif" lazyload alt="image-20241008112857404"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008112903343.png" srcset="/img/loading.gif" lazyload alt="image-20241008112903343"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008112913160.png" srcset="/img/loading.gif" lazyload alt="image-20241008112913160"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008112931081.png" srcset="/img/loading.gif" lazyload alt="image-20241008112931081"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008112936276.png" srcset="/img/loading.gif" lazyload alt="image-20241008112936276"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008112947117.png" srcset="/img/loading.gif" lazyload alt="image-20241008112947117"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008112953578.png" srcset="/img/loading.gif" lazyload alt="image-20241008112953578"></p>
+<h4 id="netstat-显示网络状态和端口占用信息"><a href="#netstat-显示网络状态和端口占用信息" class="headerlink" title="netstat 显示网络状态和端口占用信息"></a>netstat 显示网络状态和端口占用信息</h4><p>netstat -anp | grep 进程号 （功能描述：查看该进程网络信息）</p>
+<p>netstat –nlp | grep 端口号 （功能描述：查看网络端口号占用情况）</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008113147744.png" srcset="/img/loading.gif" lazyload alt="image-20241008113147744"></p>
+<p>通过进程号查看sshd进程的网络信息</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008113209875.png" srcset="/img/loading.gif" lazyload alt="image-20241008113209875"></p>
+<p>查看某端口号是否被占用</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008113227169.png" srcset="/img/loading.gif" lazyload alt="image-20241008113227169"></p>
+<h3 id="软件包管理"><a href="#软件包管理" class="headerlink" title="软件包管理"></a>软件包管理</h3><h4 id="RPM"><a href="#RPM" class="headerlink" title="RPM"></a>RPM</h4><p>RPM（RedHat Package Manager），RedHat软件包管理工具，类似windows里面的setup.exe 是Linux这系列操作系统里面的打包安装工具，它虽然是RedHat的标志，但理念是通用的。</p>
+<h4 id="RPM-查询命令（rpm-qa"><a href="#RPM-查询命令（rpm-qa" class="headerlink" title="RPM 查询命令（rpm -qa)"></a>RPM 查询命令（rpm -qa)</h4><p>rpm -qa （功能描述：查询所安装的所有 rpm 软件包)</p>
+<p>由于软件包比较多，一般都会采取过滤。rpm -qa | grep rpm软件包</p>
+<h4 id="RPM-卸载命令（rpm-e"><a href="#RPM-卸载命令（rpm-e" class="headerlink" title="RPM 卸载命令（rpm -e)"></a>RPM 卸载命令（rpm -e)</h4><p>（1）rpm -e RPM软件包 （2） rpm -e –nodeps 软件包</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008114218119.png" srcset="/img/loading.gif" lazyload alt="image-20241008114218119"></p>
+<p> rpm -e –nodeps 软件包 ,可能会导致使用软件包的软件无法正常工作</p>
+<h4 id="RPM-安装命令（rpm-ivh）"><a href="#RPM-安装命令（rpm-ivh）" class="headerlink" title="RPM 安装命令（rpm -ivh）"></a>RPM 安装命令（rpm -ivh）</h4><p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008114310861.png" srcset="/img/loading.gif" lazyload alt="image-20241008114310861"></p>
+<h4 id="YUM"><a href="#YUM" class="headerlink" title="YUM"></a>YUM</h4><p>YUM（全称为 Yellow dog Updater, Modified）是一个在 Fedora 和 RedHat 以及 CentOS 中的 Shell 前端软件包管理器。基于 RPM 包管理，能够从指定的服务器自动下载 RPM 包 并且安装，可以自动处理依赖性关系，并且一次安装所有依赖的软件包，无须繁琐地一次次下载、安装,类似maven</p>
+<p>yum [选项] [参数]</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008114428190.png" srcset="/img/loading.gif" lazyload alt="image-20241008114428190"></p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008114434602.png" srcset="/img/loading.gif" lazyload alt="image-20241008114434602"></p>
+<p>eg.采用 yum 方式安装 firefox</p>
+<p><img src="https://pub-5b119fadf3b54830aea823cfd820fc57.r2.dev/images/image-20241008114519499.png" srcset="/img/loading.gif" lazyload alt="image-20241008114519499"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Linux/" class="print-no-link">#Linux</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Linux的使用</div>
+      <div>http://example.com/2024/06/12/Linux/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>王兴华</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年6月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/05/06/Redis/" title="Redis的使用">
+                        <span class="hidden-mobile">Redis的使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'Chinolover/Chinolover.github.io');
+      s.setAttribute('issue-term', 'title');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
